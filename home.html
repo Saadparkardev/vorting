@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voting Website</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            background: #007BFF;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        nav ul li {
+            display: inline;
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+        }
+
+        main {
+            padding: 20px;
+        }
+
+        h2 {
+            color: #007BFF;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px 0;
+            background: #007BFF;
+            color: white;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+
+        form {
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin: 20px 0;
+        }
+
+        label {
+            margin: 10px 0 5px;
+            display: block;
+        }
+
+        input, select {
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 100%;
+        }
+
+        button {
+            padding: 10px;
+            background: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Welcome to the Voting Platform</h1>
+        <nav>
+            <ul>
+                <li><a href="vote.html">Admin Section</a></li>
+                <li><a href="">Join a Poll</a></li>
+                <li><a href="part.html">Participate in a Poll</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="admin">
+            <h2>Admin Section</h2>
+            <form action="PollServlet" method="post">
+                <label for="admin-username">Username:</label>
+                <input type="text" id="admin-username" name="username" required>
+                <label for="admin-password">Password:</label>
+                <input type="password" id="admin-password" name="password" required>
+                <button type="submit">create a poll ID</button>
+            </form>
+        </section>
+
+        <section id="join-poll">
+            <h2>Join a Poll</h2>
+            <form action="PollServlet" method="post">
+                <label for="poll-id">Enter Poll ID:</label>
+                <input type="text" id="poll-id" name="pollId" required>
+                <button type="submit">Join Poll</button>
+            </form>
+        </section>
+
+        <section id="participate">
+            <h2>Participate in a Poll</h2>
+            <form action="PollServlet" method="post">
+                <label for="poll-options">Select an Option:</label>
+                <select id="poll-options" name="option" required>
+                    <option value="">--Select an Option--</option>
+                    <option value="option1">programming</option>
+                    <option value="option2">entertainment</option>
+                    <option value="option3">pollitics</option>
+                </select>
+                <button type="submit">Vote</button>
+            </form>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Poll</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to right, #6a11cb, #2575fc);
+            margin: 0;
+            padding: 20px;
+            color: white;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        input[type="text"], input[type="url"] {
+            width: calc(100% - 22px);
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            margin-bottom: 10px;
+        }
+
+        button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        a {
+            color: #007bff;
+            text-decoration: none;
+            margin-top: 10px;
+            display: inline-block;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .link-container {
+            margin-top: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Create a New Poll</h1>
+        <input type="text" id="poll-id" placeholder="Enter Poll ID" />
+        <input type="text" id="poll-option" placeholder="Enter Poll Option" />
+        <input type="url" id="poll-url" placeholder="Enter URL for more info" />
+        <button id="add-option-button">Add Option</button>
+        <button id="create-poll-button">Create Poll</button>
+    </div>
+    <script>
+        let polls = {};
+
+        document.getElementById('add-option-button').addEventListener('click', function() {
+            const pollId = document.getElementById('poll-id').value;
+            const pollOption = document.getElementById('poll-option').value;
+
+            if (pollId && pollOption) {
+                if (!polls[pollId]) {
+                    polls[pollId] = { options: {}, totalVotes: 0 };
+                }
+                if (!polls[pollId].options[pollOption]) {
+                    polls[pollId].options[pollOption] = 0;
+                    alert(`Option "${pollOption}" added to poll "${pollId}".`);
+                } else {
+                    alert(`Option "${pollOption}" already exists in poll "${pollId}".`);
+                }
+                document.getElementById('poll-option').value = ''; // Clear input
+            } else {
+                alert('Please enter both Poll ID and Option.');
+            }
+        });
+
+        document.getElementById('create-poll-button').addEventListener('click', function() {
+            const pollId = document.getElementById('poll-id').value;
+            if (polls[pollId]) {
+                // Save the poll data to localStorage
+                localStorage.setItem('polls', JSON.stringify(polls));
+                // Redirect to the voting page with the poll ID
+                window.location.href = 'votef.html?pollId=' + encodeURIComponent(pollId);
+            } else {
+                alert('Please add at least one option before creating the poll.');
+            }
+        });
+    </script>
+</body>
+</html>

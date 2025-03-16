@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Voter Registration</title>
+    <link rel="stylesheet" href="stylesheet.css"> <!-- Ensure the CSS file is named correctly -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #ff7e5f, #feb47b); /* Gradient background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            max-width: 600px;
+            width: 100%;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        table {
+            width: 100%;
+            margin-top: 20px;
+        }
+        td {
+            padding: 10px;
+        }
+        input[type="text"],
+        input[type="date"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        input[type="radio"] {
+            margin-left: 10px;
+        }
+        input[type="file"] {
+            margin-top: 5px;
+        }
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 20px;
+        }
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>New Voter Registration</h1>
+        <form name="myform" id="registrationForm" action="#" method="post"> <!-- Use action="#" for demonstration -->
+            <table>
+                <tr>
+                    <td>First Name:</td>
+                    <td><input type="text" name="fname" required></td>
+                </tr>
+                <tr>
+                    <td>Last Name:</td>
+                    <td><input type="text" name="lname" required></td>
+                </tr>
+                <tr>
+                    <td>Father's Name:</td>
+                    <td><input type="text" name="fathername" required></td>
+                </tr>
+                <tr>
+                    <td>Mother's Name:</td>
+                    <td><input type="text" name="mname" required></td>
+                </tr>
+                <tr>
+                    <td>Date of Birth:</td>
+                    <td><input type="date" name="date" required></td>
+                </tr>
+                <tr>
+                    <td>Gender:</td>
+                    <td>
+                        <input type="radio" name="gender" value="male" required> Male
+                        <input type="radio" name="gender" value="female"> Female
+                        <input type="radio" name="gender" value="other"> Other
+                    </td>
+                </tr>
+                <tr>
+                    <td>Address:</td>
+                    <td><textarea name="address" required></textarea></td>
+                </tr>
+                <tr>
+                    <td>Choose Documents:</td>
+                    <td>
+                        <select name="documents" required>
+                            <option value="">----Select----</option>
+                            <option value="aadhar">Aadhar Card</option>
+                            <option value="pan">PAN Card</option>
+                            <option value="driving_license">Driving License</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Photo:</td>
+                    <td><input type="file" name="data" accept="image/*" required></td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <input type="submit" name="login" value="Register">
+                    </td>
+                </tr>
+            </table>
+        </form>
+        <p style="text-align: center; margin-top: 20px;">
+            <a href="proceed.html" style="color: #4CAF50;">Proceed to Next Step</a>
+        </p>
+    </div>
+
+    <script>
+        document.getElementById('registrationForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the default form submission
+            // Here you can add your form submission logic (e.g., AJAX request)
+            // After successful submission, redirect to proceed.html
+            window.location.href = 'welcome.html';
+        });
+    </script>
+</body>
+</html>

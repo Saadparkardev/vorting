@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voting System</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to right, #6a11cb, #2575fc);
+            margin: 0;
+            padding: 20px;
+            color: white;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        input[type="text"] {
+            width: calc(100% - 22px);
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            margin-bottom: 10px;
+        }
+
+        button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .results {
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .results h3 {
+            margin-bottom: 10px;
+        }
+
+        .candidate {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Create Your Question</h1>
+        <input type="text" id="question" placeholder="Enter your question here" />
+        <input type="text" id="candidate" placeholder="Enter candidate name" />
+        <button id="add-candidate-button">Add Candidate</button>
+        <button id="create-poll-button">Create Poll</button>
+        <button id="clear-button" class="hidden">Clear</button>
+
+        <div id="candidates-list" class="hidden">
+            <h3>Candidates:</h3>
+            <div id="candidates-container"></div>
+        </div>
+
+        <div id="voting-section" class="hidden">
+            <h2>Vote for: <span id="poll-question"></span></h2>
+            <form id="vote-form">
+                <div id="vote-candidates-container"></div>
+                <button type="submit">Vote</button>
+            </form>
+            <div id="result" class="hidden">
+                <h3>Thank you for voting!</h3>
+                <p>Your vote has been recorded.</p>
+            </div>
+        </div>
+
+        <div class="results hidden" id="results-section">
+            <h3>Poll Results:</h3>
+            <ul id="vote-counts"></ul>
+        </div>
+
+        <div id="share-section" class="hidden">
+            <h3>Share this Poll</h3>
+            <p>Your Poll ID: <span id="poll-id"></span></p>
+            <button id="copy-link-button">Copy Poll Link</button>
+            <p id="share-link" class="hidden"></p>
+        </div>
+    </div>
+<script>
+    let candidates = [];
+    let votes = {};
+    let pollId = '';
+
+    // Function to generate a unique Poll ID
+    function generatePollId() {
+        return 'poll-' + Math.random().toString(36).substr(2, 9); // Generates a random ID
+    }
+
+    document.getElementById('add-candidate-button').addEventListener('click', function() {
+        const candidateName = document.getElementById('candidate').value;
+
+        if (candidateName) {
+            candidates.push(candidateName);
+            votes[candidateName] = 0; // Initialize vote count for the candidate
+            document.getElementById('candidate').value = ''; // Clear input
+
+            // Update candidates list
+            updateCandidatesList();
+            document.getElementById('candidates-list').classList.remove('hidden');
+        } else {
+            alert('Please enter a candidate name.');
+        }
+    });
+
+    document.getElementById('create-poll-button').addEventListener('click', function() {
+        const question = document.getElementById('question').value;
+
+        if (candidates.length > 0 && question) {
+            pollId = generatePollId(); // Generate a unique Poll ID
+            document.getElementById('poll-question').innerText = question;
+            document.getElementById('poll-id').innerText = pollId; // Display Poll ID
+            document.getElementById('share-section').classList.remove('hidden'); // Show share section
+            document.getElementById('voting-section').classList.remove('hidden');
+            updateVoteCandidates();
+            document.getElementById('clear-button').classList.remove('hidden'); // Show clear button
+        } else {
+            alert('Please enter a question and add at least one candidate.');
+        }
+    });
+
+    document.getElementById('vote-form').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent form submission
+
+        const selectedCandidate = document.querySelector('input[name="candidate"]:checked');
+        if (selectedCandidate) {
+            const candidateName = selectedCandidate.value;
+            votes[candidateName] += 1; // Increment vote count
+            document.getElementById('result').classList.remove('hidden');
+            document.getElementById('voting-section').classList.add('hidden');
+            updateResults();
+        } else {
+            alert('Please select a candidate to vote for.');
+        }
+    });
+
+    document.getElementById('clear-button').addEventListener('click', function() {
+        // Reset the form and clear candidates and votes
+        candidates = [];
+        votes = {};
+        document.getElementById('question').value = '';
+        document.getElementById('candidate').value = '';
+        document.getElementById('candidates-container').innerHTML = '';
+        document.getElementById('vote-candidates-container').innerHTML = '';
+        document.getElementById('candidates-list').classList.add('hidden');
+        document.getElementById('voting-section').classList.add('hidden');
+        document.getElementById('result').classList.add('hidden');
+        document.getElementById('results-section').classList.add('hidden');
+        document.getElementById('clear-button').classList.add('hidden'); // Hide clear button
+        document.getElementById('share-section').classList.add('hidden'); // Hide share section
+    });
+
+    document.getElementById('copy-link-button').addEventListener('click', function() {
+        const link = `https://yourpollingsite.com/poll?id=${pollId}`; // Replace with your actual site URL
+        navigator.clipboard.writeText(link).then(() => {
+            alert('Poll link copied to clipboard: ' + link);
+        }).catch(err => {
+            console.error('Could not copy text: ', err);
+        });
+    });
+
+    function updateCandidatesList() {
+        const candidatesContainer = document.getElementById('candidates-container');
+        candidatesContainer.innerHTML = ''; // Clear previous candidates
+        candidates.forEach(candidate => {
+            const candidateDiv = document.createElement('div');
+            candidateDiv.className = 'candidate';
+            candidateDiv.innerText = candidate;
+            candidatesContainer.appendChild(candidateDiv);
+        });
+    }
+
+    function updateVoteCandidates() {
+        const voteCandidatesContainer = document.getElementById('vote-candidates-container');
+        voteCandidatesContainer.innerHTML = ''; // Clear previous candidates
+        candidates.forEach(candidate => {
+            const candidateDiv = document.createElement('div');
+            candidateDiv.className = 'candidate';
+            candidateDiv.innerHTML = `<input type="radio" name="candidate" value="${candidate}" /> ${candidate}`;
+            voteCandidatesContainer.appendChild(candidateDiv);
+        });
+    }
+
+    function updateResults() {
+        const voteCountsContainer = document.getElementById('vote-counts');
+        voteCountsContainer.innerHTML = ''; // Clear previous results
+        for (const candidate in votes) {
+            const resultItem = document.createElement('li');
+            resultItem.innerText = `${candidate}: ${votes[candidate]}`;
+            voteCountsContainer.appendChild(resultItem);
+        }
+        document.getElementById('results-section').classList.remove('hidden'); // Show results section
+    }
+</script>
+</body>
+</html>
