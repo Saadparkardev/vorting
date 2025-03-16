@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voter Portal</title>
+    <style>
+        body {
+            background: linear-gradient(135deg, #ff7e5f, #feb47b); /* Gradient background */
+            font-family: 'Arial', sans-serif;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            text-align: center;
+        }
+        h1 {
+            margin-bottom: 25px;
+            font-size: 2.5em; /* Larger font size for the title */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Text shadow for depth */
+        }
+        .form-container {
+            background: rgba(0, 0, 0, 0.7); /* Darker semi-transparent background */
+            padding: 30px; /* Increased padding for the form */
+            border-radius: 13px; /* More rounded corners */
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            width: 300px; /* Fixed width for the form */
+        }
+        input.item {
+            width: 100%;
+            padding: 12px; /* Increased padding */
+            background: transparent;
+            border: 3px solid #0ef;
+            outline: none;
+            border-radius: 5px; /* Slightly larger border radius */
+            font-size: 16px; /* Larger font size */
+            color: #ededed;
+            margin: 14px 0; /* Increased margin */
+            transition: border-color 0.3s; /* Smooth transition for border color */
+        }
+        input.item::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+        input.item:focus {
+            border-color: #fff; /* Change border color on focus */
+        }
+        input[type="submit"] {
+            background-color: #0ef;
+            color: #fff;
+            border: none;
+            padding: 12px; /* Increased padding for the button */
+            border-radius: 5px; /* Slightly larger border radius */
+            cursor: pointer;
+            width: 100%;
+            margin-top: 15px; /* Increased margin for spacing */
+            font-size: 16px; /* Larger font size */
+            transition: background-color 0.4s; /* Smooth transition for background color */
+        }
+        input[type="submit"]:hover {
+            background-color: #0cd; /* Darker shade on hover */
+        }
+        a {
+            color: #0ef;
+            text-decoration: none;
+            font-size: 14px; /* Font size for links */
+            margin-top: 16px;
+            display: inline-block; /* Make links block elements for spacing */
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h1>Voter Portal</h1>
+        <form action="welcome.html" method="post"> <!-- Redirect to welcome.html on submit -->
+            <input type="text" class="item" name="username" placeholder="Username" required>
+            <input type="password" class="item" name="password" placeholder="Password" required>
+            <input type="submit" value="Login">
+        </form>
+        <p>
+            <a href="forgot_password.html">Forgot Password?</a> | 
+            <a href="angad.html">Register</a>
+        </p>
+    </div>
+</body>
+</html>
